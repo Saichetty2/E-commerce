@@ -59,7 +59,7 @@ public class VendorServiceImpl implements VendorService {
                 .map(vendor -> {
                     VendorDto vendorDto = new VendorDto();
                     
-                    vendorDto.setId(vendor.getId());  
+                    vendorDto.setVendorId(vendor.getVendorId());  
                     vendorDto.setFirmName(vendor.getFirmName());  
                     vendorDto.setType(vendor.getType());  
                     vendorDto.setGstn(vendor.getGstn());  
@@ -122,7 +122,7 @@ public class VendorServiceImpl implements VendorService {
 	    
 	    // Map Vendor fields to VendorDto fields
 	    VendorDto vendorDto = new VendorDto();
-	    vendorDto.setId(vendor.getId());
+	    vendorDto.setVendorId(vendor.getVendorId());
 	    vendorDto.setFirmName(vendor.getFirmName());
 	    vendorDto.setAuthPerson(vendor.getAuthPerson());
 	    vendorDto.setEmail(vendor.getEmail());
@@ -155,7 +155,7 @@ public class VendorServiceImpl implements VendorService {
                 .map(vendor -> {
                     VendorDto vendorDto = new VendorDto();
                     
-                    vendorDto.setId(vendor.getId());  
+                    vendorDto.setVendorId(vendor.getVendorId());
                     vendorDto.setFirmName(vendor.getFirmName());  
                     vendorDto.setType(vendor.getType());  
                     vendorDto.setGstn(vendor.getGstn());  
@@ -176,7 +176,7 @@ public class VendorServiceImpl implements VendorService {
 	}
 
 	@Override
-	public List<VendorDto> findByAdmin(Long adminId) {
+	public List<VendorDto> findByAdmin(String adminId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -65,22 +65,21 @@ public class ProductController {
 	
 //	to find the product by id
 	@GetMapping("/find/{id}")
-	public Product getById(@PathVariable long id) {
+	public Product getById(@PathVariable String id) {
 		Product productId = productService.getByProductId(id);
-		
 		return productId;
 	}
 	
 //	to update the product
 	@PutMapping("/update-product/{id}")
-	public Product updateProduct(@PathVariable long id, @RequestBody Product product) {
+	public Product updateProduct(@PathVariable String id, @RequestBody Product product) {
 		return productService.updateById(id, product);
 	}
 	
 //	 to delete the product
 
 	@DeleteMapping("/delete-product{id}")
-	public void deleteProduct(@PathVariable Integer id) {
+	public void deleteProduct(@PathVariable String id) {
 		productService.deleteProduct(id);
 	}
 	

@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class Vendor {
 	
 	@Id
-	private String id;
+	private String vendorId;
 	private String firmName;
 	private String type;
 	private String gstn;
@@ -27,14 +27,15 @@ public class Vendor {
 	@Column(unique = true)
 	private String email;
 	private String password;
-	private Long   adminId;
+	private boolean active;
+	private String   adminId;
 	private String addedBy;
 	private String role;
 	
 	
 	public void setId() {
 		
-		this.id= UUID.randomUUID().toString().replace("-", "");
+		this.vendorId= UUID.randomUUID().toString().replace("-", "");
 		
 	}
 

@@ -15,15 +15,16 @@ public interface ProductService {
 	List<Product> getAllProducts();
 	
 //	getById
-	Product getByProductId(Long id);
+	Product getByProductId(String id);
 	
 //	update
-	Product updateById(long id, Product product);
+	Product updateById(String id, Product product);
 	
-//	delete
-	void deleteProduct(long id);
+
 	
 	List<Product> getProductsByCatId(String catId);
+
+	void deleteProduct(String id);
 
 	
 

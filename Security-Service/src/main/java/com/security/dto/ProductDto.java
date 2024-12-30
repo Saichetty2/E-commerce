@@ -2,6 +2,7 @@ package com.security.dto;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class ProductDto {
 	
 	
-	private long productId;
+	private String productId;
 
     private String productTitle;
     private String description;
@@ -28,5 +29,7 @@ public class ProductDto {
     private double productPrice;
     private String vendorId;
     private String catId;
+    @Transient
+    private long totalProducts;
 
 }

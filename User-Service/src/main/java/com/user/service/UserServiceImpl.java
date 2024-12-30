@@ -1,6 +1,7 @@
 package com.user.service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -32,6 +33,7 @@ public class UserServiceImpl implements UserService  {
     
     @Override
     public UserDto saveUser(User user) {
+    	
         logger.info("Saving user: {}", user.getUserName());
         
         if (user.getPassword().equals(user.getPassword2())) {
@@ -41,6 +43,8 @@ public class UserServiceImpl implements UserService  {
             throw new IllegalArgumentException("Passwords do not match.");
         }
         
+        String userId = UUID.randomUUID().toString();
+        user.setUserId(userId);
         user.setRole("ROLE_USER");
         
         User savedUser = userRepository.save(user);
@@ -55,11 +59,11 @@ public class UserServiceImpl implements UserService  {
     
     
     @Override
-    public UserDto getById(Long userId) {
+    public User getById(String userId) {
         logger.info("Fetching user by ID: {}", userId);
 
         // Fetch the user by ID
-        User userById = userRepository.findById(userId)
+        User userById = userRepository.findByUserId(userId)
                 .orElseThrow(() -> {
                     logger.error("User not found with ID: {}", userId);
                     return new RuntimeException("User not found with ID: " + userId);
@@ -69,7 +73,7 @@ public class UserServiceImpl implements UserService  {
         logger.info("User fetched successfully: {}", userById.getUserName());
         
         // Return the UserDto
-        return convertToDto(userById);
+        return userById;
     }
 
     @Override
@@ -89,6 +93,7 @@ public class UserServiceImpl implements UserService  {
     
     
     private UserDto convertToDto(User user) {
+    	
         logger.debug("Converting User entity to UserDto: {}", user.getUserName());
         
         UserDto userDto = new UserDto();

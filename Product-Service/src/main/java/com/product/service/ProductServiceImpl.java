@@ -42,21 +42,25 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product getByProductId(Long productId) {
+    public Product getByProductId(String productId) {
         logger.info("Fetching product with ID: {}", productId);
-        Product product = productRepository.findById(productId)
+
+        // Retrieve product or throw exception if not found
+        Product product = productRepository.findByProductId(productId)
                 .orElseThrow(() -> {
                     logger.error("Product not found with ID: {}", productId);
                     return new ResourceNotFoundException("Product not found with ID: " + productId);
                 });
+
         logger.info("Product fetched successfully: {}", product);
         return product;
     }
 
+
     @Override
-    public Product updateById(long id, Product updatedProduct) {
+    public Product updateById(String id, Product updatedProduct) {
         logger.info("Updating product with ID: {}", id);
-        Product existingProduct = productRepository.findById(id).orElseThrow(() -> {
+        Product existingProduct = productRepository.findByProductId(id).orElseThrow(() -> {
             logger.error("Product not found with ID: {}", id);
             return new RuntimeException("Product not found with ID: " + id);
         });
@@ -77,7 +81,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteProduct(long id) {
+    public void deleteProduct(String id) {
         logger.info("Attempting to delete product with ID: {}", id);
         if (!productRepository.existsById(id)) {
             logger.error("Product not found with ID: {}", id);

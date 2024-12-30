@@ -12,14 +12,15 @@ import lombok.NoArgsConstructor;
 public class Vendor {
 	
 	
-	private String id;
+	private String vendorId;
 	private String firmName;
 	private String type;
 	private String gstn;
 	private String authPerson;
 	private String email;
 	private String password;
-	private Long   adminId;
+	private boolean active;
+	private String   adminId;
 	private String addedBy;
 	private String role;
 

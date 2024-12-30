@@ -34,7 +34,7 @@ public class AdminController {
     
     AdminServiceImpl adminServiceImpl = new AdminServiceImpl();
 
-  @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
     @PostMapping("/save-admin")
     public ResponseEntity<Admin> saveAdmin(@RequestBody Admin admin) {
         Admin savedAdmin = adminService.saveAdmin(admin);
@@ -50,7 +50,7 @@ public class AdminController {
 
     // Get one admin by ID
     @GetMapping("/get-admin/{id}")
-    public ResponseEntity<Admin> getAdminById(@PathVariable Long id) {
+    public ResponseEntity<Admin> getAdminById(@PathVariable String id) {
         Admin admin = adminService.getOneAdminById(id);
         return new ResponseEntity<>(admin, HttpStatus.ACCEPTED);
     }
@@ -69,7 +69,7 @@ public class AdminController {
 
     // Delete an admin by ID
     @DeleteMapping("/delete-admin/{id}")
-    public ResponseEntity<String> deleteAdminById(@PathVariable Long id) {
+    public ResponseEntity<String> deleteAdminById(@PathVariable String id) {
         String response = adminService.deleteAdminById(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -87,7 +87,7 @@ public class AdminController {
     }
 
     
-//   @PreAuthorize("hasRole('ROLE_ADMIN')")
+   @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/save-ven")
     public ResponseEntity<?> saveVendor(@RequestBody Vendor vendorDto) {
     	if(adminService.getAdminFromToken().isVendorsEnanble()==true) {
@@ -107,12 +107,12 @@ public class AdminController {
     
     @PreAuthorize("hasRole('ADMIN') or hasRole('VENDOR')")
     @PutMapping("/update/product/{productId}")
-    public ResponseEntity<?> updateProduct(@PathVariable long productId, @RequestBody ProductDto productDto){
+    public ResponseEntity<?> updateProduct(@PathVariable String productId, @RequestBody ProductDto productDto){
 		return adminService.update(productId, productDto);
     }
     
     
-    @PreAuthorize("hasRole('ADMIN') or hasRole('VENDOR') or hasRole('USER')")
+//    @PreAuthorize("hasRole('ADMIN') or hasRole('VENDOR') or hasRole('USER')")
     @GetMapping("/getall-products")
     public List<ProductDto> getAllproducts(){
     	return adminService.getAll();

@@ -10,7 +10,7 @@ public interface VendorService {
 	
 	Vendor saveVendor(Vendor vendor);
 	
-	VendorDto getById(String id);
+	VendorDto getById(String vendorId);
 	
 	List<VendorDto> getAllVendors();
 	
@@ -18,7 +18,7 @@ public interface VendorService {
 	
 	Optional<Vendor> findByGstn(String gstn);
 	
-	List<VendorDto> findByAdmin(Long adminId);
+	List<VendorDto> findByAdmin(String adminId);
 	
 	List<VendorDto> findByAddedBy(String adminName);
 

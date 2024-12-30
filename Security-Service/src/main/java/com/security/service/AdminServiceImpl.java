@@ -16,6 +16,7 @@ import com.security.repository.AdminRepository;
 import com.security.security.JwtAuthenticationFilter;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -39,10 +40,12 @@ public class AdminServiceImpl implements AdminService {
 //    successfully completed this on 13.12.2024 0244pm
 	JwtAuthenticationFilter jwtTokenProvider = new JwtAuthenticationFilter();
 
-//    ADD ADMIN ONLY DONE BY THE SUPER_ADMIN
+//  ADD ADMIN ONLY DONE BY THE SUPER_ADMIN
 	@Override
 	public Admin saveAdmin(Admin admin) {
 		String prefix = "ROLE_";
+		String adminId = UUID.randomUUID().toString();
+        admin.setAdminId(adminId);
 		admin.setRole(prefix + admin.getRole().toUpperCase());
 		admin.setPassword(passwordEncoder.encode(admin.getPassword()));
 		Admin savedAdmin = adminRepository.save(admin);
@@ -57,7 +60,7 @@ public class AdminServiceImpl implements AdminService {
 
 //	DONE ONLY BY SUPER_ADMIN
 	@Override
-	public Admin getOneAdminById(Long id) {
+	public Admin getOneAdminById(String id) {
 		Optional<Admin> admin = adminRepository.findById(id);
 		return admin.orElseThrow(() -> new RuntimeException("Admin not found with ID: " + id));
 	}
@@ -83,7 +86,7 @@ public class AdminServiceImpl implements AdminService {
 
 //	DONE ONLY BY SUPER_ADMIN
 	@Override
-	public String deleteAdminById(Long id) {
+	public String deleteAdminById(String id) {
 		Optional<Admin> admin = adminRepository.findById(id);
 		if (admin.isPresent()) {
 			adminRepository.deleteById(id);
@@ -103,8 +106,8 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public ResponseEntity<?> saveVendor(Vendor vendorDto) {
 
-		vendorDto.setAddedBy(getAdminFromToken().getName());
-		vendorDto.setAdminId(getAdminFromToken().getId());
+		vendorDto.setAddedBy(getAdminFromToken().getAdminName());
+		vendorDto.setAdminId(getAdminFromToken().getAdminId());
 		vendorDto.setRole("ROLE_VENDOR");
 
 		System.out.println("666666666666666666: " + vendorDto.getAddedBy());
@@ -132,8 +135,17 @@ public class AdminServiceImpl implements AdminService {
 //		here, i want to add get vendor, get admin user details from token and pass them to respective loop.
 
 //		using terinanry operator to check null values before saving the operation
-		String email = getVendorFromToken() != null ? getVendorFromToken().getEmail() : null;
-		String userName = getAdminFromToken() != null ? getAdminFromToken().getUserName() : null;
+		
+		String userName = null;
+		String email = null;
+		if (userName == null) {
+
+			email = getVendorFromToken() != null ? getVendorFromToken().getEmail() : null;
+		}
+
+		if (email == null) {
+			userName = getAdminFromToken() != null ? getAdminFromToken().getUserName() : null;
+		}
 
 		if (email != null && userName == null) {
 			productDto.setVendorId(email);
@@ -153,11 +165,14 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public List<ProductDto> getAll() {
 		List<ProductDto> allProducts = productClientService.getAllProducts();
+		
+		allProducts.forEach(prod-> prod.setTotalProducts(allProducts.size()));
+		
 		return allProducts;
 	}
 
 	@Override
-	public ResponseEntity<?> update(long id, ProductDto productDto) {
+	public ResponseEntity<?> update(String id, ProductDto productDto) {
 
 		String userName = null;
 		String email = null;
@@ -196,7 +211,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public Optional<ProductDto> findByProductId(Long productId) {
+	public Optional<ProductDto> findByProductId(String productId) {
 
 		Optional<ProductDto> findById = productClientService.getById(productId);
 
@@ -204,7 +219,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public ProductDto delete(long id) {
+	public ProductDto delete(String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

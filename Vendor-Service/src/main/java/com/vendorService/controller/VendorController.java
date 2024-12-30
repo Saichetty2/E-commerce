@@ -62,7 +62,7 @@ public class VendorController {
 	
 	
 	@GetMapping("/get-admin/{admin}")
-	public List<VendorDto> getByAdmin(@PathVariable Long admin){
+	public List<VendorDto> getByAdmin(@PathVariable String admin){
 		List<VendorDto> findByAdmin = vendorService.findByAdmin(admin);
 		return findByAdmin;
 	}

@@ -19,10 +19,10 @@ public interface ProductClientService {
 	public ResponseEntity<?> saveProduct(@RequestBody ProductDto product);
 	
 	@GetMapping("/find/{id}")
-	public Optional<ProductDto>  getById(@PathVariable long id);
+	public Optional<ProductDto>  getById(@PathVariable String id);
 	
 	@PutMapping("/update-product/{id}")
-	public ProductDto updateProduct(@PathVariable long id, @RequestBody ProductDto product);
+	public ProductDto updateProduct(@PathVariable String id, @RequestBody ProductDto product);
 	
 	@GetMapping("/find-products")
 	public List<ProductDto> getAllProducts();

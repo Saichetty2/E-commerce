@@ -26,8 +26,7 @@ import lombok.NoArgsConstructor;
 public class User {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long userId;
+    private String userId;
     
     @Size(min = 3,max = 30,message = "Invalid name !!")
     private String firstName;
@@ -43,8 +42,9 @@ public class User {
     private String password;
     
     @Transient
-    @NotBlank(message = "Password is required !!")
     private String password2;
+    
+    private String phoneNumber;
     
     @Column(unique = true)
     private String userName;

@@ -1,6 +1,7 @@
 package com.product.entity;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -24,8 +25,7 @@ import lombok.NoArgsConstructor;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long productId;
+    private String productId;
     private String productTitle;
     private String description;
     private double actualPrice;
@@ -51,7 +51,8 @@ public class Product {
     @PrePersist
     @PreUpdate
     public void setGstAndStock() {
-        this.addedDate = LocalDateTime.now(); // Fixed the syntax
+    	this.productId= UUID.randomUUID().toString();
+        this.addedDate = LocalDateTime.now(); 
         this.productPrice = actualPrice + ((actualPrice * sgst / 100) + (actualPrice * cgst / 100));
 
         // Simplified stock and live logic

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.security.dto.Vendor;
 
-@FeignClient(name = "VENDOR-SERVICE" , url  = "http://localhost:8084/vendor")
+@FeignClient(value  = "VENDOR-SERVICE" , path  = "/vendor")
 public interface VendorClientService {
 
 	

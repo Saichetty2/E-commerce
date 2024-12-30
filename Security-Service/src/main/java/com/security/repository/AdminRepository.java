@@ -9,7 +9,7 @@ import com.security.dto.Vendor;
 import com.security.entity.Admin;
 
 @Repository
-public interface AdminRepository extends JpaRepository<Admin, Long> {
+public interface AdminRepository extends JpaRepository<Admin, String> {
 	
 	Optional< Admin> findByUserName(String username);
 	

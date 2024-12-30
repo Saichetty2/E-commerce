@@ -16,9 +16,9 @@ public interface AdminService {
 	
 	List<Admin> getAllAdmins();
 	
-	Admin getOneAdminById(Long id);
+	Admin getOneAdminById(String id);
 	
-	String deleteAdminById(Long id);
+	String deleteAdminById(String id);
 	
 	Optional<Admin> getByUsername(String username);
 	
@@ -33,10 +33,10 @@ public interface AdminService {
 	
 	
 	ResponseEntity<?> saveProduct(ProductDto productDto);
-	Optional<ProductDto> findByProductId(Long productId);
+	Optional<ProductDto> findByProductId(String productId);
 	List<ProductDto> getAll();
-	ResponseEntity<?> update(long id, ProductDto productDto);
-	ProductDto delete(long id);
+	ResponseEntity<?> update(String id, ProductDto productDto);
+	ProductDto delete(String id);
 
 	User findByUserName(String userName);
 	
