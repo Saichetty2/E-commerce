@@ -43,8 +43,6 @@ public class SecurityServiceApplication implements CommandLineRunner {
 //		VendorDto findByEmail = vendorClientService.getByEmail("chnadra123@gmail.com");
 //		System.out.println("Testing from the main application: 4 "+findByEmail);
 		
-		
-		
 	}
 	
 	

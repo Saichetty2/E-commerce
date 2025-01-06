@@ -20,7 +20,6 @@ import com.user.service.UserServiceImpl;
 @RequestMapping("/user")
 public class UserController {
 
-	
 	@Autowired
 	private UserServiceImpl userService;
 	
@@ -44,7 +43,6 @@ public class UserController {
     
     @GetMapping("/get-ue/{userNameOrEmail}")
     public ResponseEntity<User> findByUserNameOrEmail(@PathVariable String userNameOrEmail){
-    	
     	User findByUserNameOrEmail = userService.findByUserNameOrEmail(userNameOrEmail, userNameOrEmail);
 		return ResponseEntity.ok(findByUserNameOrEmail);
     	

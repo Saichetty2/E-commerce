@@ -4,11 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import com.security.dto.Cart;
-import com.security.dto.CartItem;
 import com.security.dto.ProductDto;
 import com.security.dto.User;
 import com.security.dto.Vendor;
@@ -42,7 +38,8 @@ public interface AdminService {
 	ResponseEntity<?> update(String id, ProductDto productDto);
 	ProductDto delete(String id);
 
-	User findUserByUserName();
+	User findByUserName(String userName);
+	
 
-	ResponseEntity<Cart> addItemToCart(String userId,String productId,CartItem request);
+
 }

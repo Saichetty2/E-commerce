@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.security.dto.Cart;
-import com.security.dto.CartItem;
 import com.security.dto.ProductDto;
 import com.security.dto.User;
 import com.security.dto.Vendor;
@@ -120,13 +118,17 @@ public class AdminController {
     	return adminService.getAll();
     }
     
-    @PostMapping("/{productId}/add-cart")
-    public ResponseEntity<Cart> createCart(String userId,@PathVariable String productId, @RequestBody CartItem cartItem ) {
-    	
-    	return adminService.addItemToCart(userId, productId, cartItem);
+//  Sending username of the user to the user service from security service
+//    @GetMapping("/user/username")
+//    public String findUserName() {
+//    	return adminServiceImpl.getUserNameFromTheToken();
+//    }
+    
+    @GetMapping("/get/user")
+    public User findTheUserEmail() {
+    	return adminServiceImpl.findByEmail();
     }
     
-
-    
+   
 }
 

@@ -47,7 +47,7 @@ public class SecurityConfig {
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf((csrf)-> csrf.disable())
 		.authorizeHttpRequests((authorize)-> authorize
-				 .requestMatchers("/login/**", "/admin/getuserid").permitAll()
+				.requestMatchers("/login/**").permitAll()
 				.anyRequest().authenticated()).exceptionHandling(exception -> 
 				exception.authenticationEntryPoint(authenticationEntryPoint)).sessionManagement(session -> 
 				session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

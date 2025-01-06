@@ -5,15 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.security.client.CartClientService;
 import com.security.client.ProductClientService;
 import com.security.client.UserClientService;
 import com.security.client.VendorClientService;
-import com.security.dto.Cart;
-import com.security.dto.CartItem;
 import com.security.dto.ProductDto;
 import com.security.dto.User;
 import com.security.dto.Vendor;
@@ -41,20 +35,17 @@ public class AdminServiceImpl implements AdminService {
 
 	@Autowired
 	private UserClientService userClientService;
-	
-	@Autowired
-	private CartClientService cartClientService;
 
 //    this instance having username from the token
 //    successfully completed this on 13.12.2024 0244pm
-	JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter();
+	JwtAuthenticationFilter jwtTokenProvider = new JwtAuthenticationFilter();
 
 //  ADD ADMIN ONLY DONE BY THE SUPER_ADMIN
 	@Override
 	public Admin saveAdmin(Admin admin) {
 		String prefix = "ROLE_";
 		String adminId = UUID.randomUUID().toString();
-		admin.setAdminId(adminId);
+        admin.setAdminId(adminId);
 		admin.setRole(prefix + admin.getRole().toUpperCase());
 		admin.setPassword(passwordEncoder.encode(admin.getPassword()));
 		Admin savedAdmin = adminRepository.save(admin);
@@ -74,27 +65,23 @@ public class AdminServiceImpl implements AdminService {
 		return admin.orElseThrow(() -> new RuntimeException("Admin not found with ID: " + id));
 	}
 
-//	get admin from token
 	public Admin getAdminFromToken() {
-		return adminRepository.findByUserName(jwtAuthenticationFilter.getUsername()).get();
+		return adminRepository.findByUserName(jwtTokenProvider.getUsername()).get();
 	}
 
-//	get vendor from token
 	public Vendor getVendorFromToken() {
-		Vendor vendorByEmail = vendorClientService.getByEmail(jwtAuthenticationFilter.getUsername());
-		System.out.println("this is vendor details from security service: " + vendorByEmail);
-		return vendorByEmail;
+		return vendorClientService.getByEmail(jwtTokenProvider.getUsername());
 	}
-
-// get user from token
-	public User getUserFromToken() {
-		System.out.println("This is get user from token method in security service: ");
-		return userClientService.findByUserNameOrEmail(jwtAuthenticationFilter.getUsername());
+	
+//	creating method for the controller to take access form the feign client
+	public String getUserNameFromTheToken() {
+		return jwtTokenProvider.getUsername();
+		
 	}
 
 //    getting username from the token
 	public Optional<Admin> getByUserNameFromToken(String userName) {
-		return adminRepository.findByUserName(jwtAuthenticationFilter.getUsername());
+		return adminRepository.findByUserName(jwtTokenProvider.getUsername());
 	}
 
 //	DONE ONLY BY SUPER_ADMIN
@@ -148,7 +135,7 @@ public class AdminServiceImpl implements AdminService {
 //		here, i want to add get vendor, get admin user details from token and pass them to respective loop.
 
 //		using terinanry operator to check null values before saving the operation
-
+		
 		String userName = null;
 		String email = null;
 		if (userName == null) {
@@ -175,13 +162,12 @@ public class AdminServiceImpl implements AdminService {
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedProduct.getBody());
 	}
 
-//	finding all products
 	@Override
 	public List<ProductDto> getAll() {
 		List<ProductDto> allProducts = productClientService.getAllProducts();
-
-		allProducts.forEach(prod -> prod.setTotalProducts(allProducts.size()));
-
+		
+		allProducts.forEach(prod-> prod.setTotalProducts(allProducts.size()));
+		
 		return allProducts;
 	}
 
@@ -238,31 +224,15 @@ public class AdminServiceImpl implements AdminService {
 		return null;
 	}
 
-	
-//	finding username for the user service
 	@Override
-	public User findUserByUserName() {
-		User findByUserNameOrEmail = userClientService.findByUserNameOrEmail(getUserFromToken().getEmail());
-		System.out.println("This is now created method for user email: "+ findByUserNameOrEmail);
+	public User findByUserName(String userName) {
+		User findByUserNameOrEmail = userClientService.findByUserNameOrEmail(userName);
 		return findByUserNameOrEmail;
 	}
-
-	@Override
-	public ResponseEntity<Cart> addItemToCart(String userId, String productId, CartItem request) {
-
-		if (findUserByUserName()!=null) {
-			userId=findUserByUserName().getUserId();
-		             
-		}
 	
-		System.out.println(" Newly created addItem to cart method: "+ findUserByUserName().getUserId()+ " and user id is: "+ userId);
-		return cartClientService.addItemToCart(userId, productId, request);
+	
+	public User findByEmail() {
+		return userClientService.findByEmail(getUserNameFromTheToken());
 	}
-
-	
-	
-	
-	
-	
 
 }

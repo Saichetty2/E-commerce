@@ -13,8 +13,7 @@ public interface UserClientService {
 	
 	@GetMapping("/get-ue/{userNameOrEmail}")
     public User findByUserNameOrEmail(@PathVariable String userNameOrEmail);
-	
-	
+
 	
 	 @GetMapping("/get-e/{email}")
 	 public User findByEmail(@PathVariable String email) ;

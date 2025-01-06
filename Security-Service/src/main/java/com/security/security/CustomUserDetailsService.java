@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import com.security.client.UserClientService;
 import com.security.client.VendorClientService;
-import com.security.dto.Vendor;
+import com.security.dto.*;
 import com.security.entity.Admin;
 import com.security.service.AdminServiceImpl;
 
@@ -58,12 +58,12 @@ public class CustomUserDetailsService implements UserDetailsService {
             return new User(vendor.getEmail(), vendor.getPassword(), authorities);
         }
         
-     // Attempt to load user as user
+        
        com.security.dto.User user = userClientService.findByUserNameOrEmail(username);
        
         if(user!=null) {
         	System.out.println("User loop working %%%%%%%%%%%%%: "+ username);
-        	System.out.println("The result of the user: "+ user);
+        	System.out.println("The result of the vendor: "+ user);
         	 Collection<GrantedAuthority> authorities = Collections.singleton(
                      new SimpleGrantedAuthority(user.getRole()) // Example: ROLE_VENDOR
                  );
